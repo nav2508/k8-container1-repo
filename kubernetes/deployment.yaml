@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container1-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: container1
+  template:
+    metadata:
+      labels:
+        app: container1
+    spec:
+      containers:
+      - name: container1
+        image: us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1:latest
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: storage
+          mountPath: "/Navya_PV_dir"
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: navya-pvc  # Use the PVC for storage
+---

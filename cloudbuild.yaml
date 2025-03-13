@@ -1,49 +1,22 @@
-options: 
+options:
+  logging: CLOUD_LOGGING_ONLY
 
-logging: CLOUD_LOGGING_ONLY 
+steps:
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['clone', 'https://github.com/nav2508/k8-container1-repo.git']
 
- 
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1', '.']
 
- 
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1']
 
-steps: 
-
-- name: 'gcr.io/cloud-builders/git' 
-
-args: ['clone', 'https://github.com/nav2508/k8-container1-repo.git'] 
-
- 
-
-- name: 'gcr.io/cloud-builders/docker' 
-
-args: ['build', '-t', 'us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1', '.'] 
-
- 
-
-- name: 'gcr.io/cloud-builders/docker' 
-
-args: ['push', 'us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1'] 
-
- 
-
-- name: 'gcr.io/cloud-builders/kubectl' 
-
-args: 
-
-- "set" 
-
-- "image" 
-
-- "deployment/container1-deployment" 
-
-- "container1=us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1" 
-
-env: 
-
-- "CLOUDSDK_COMPUTE_REGION=us-central1" 
-
-- "CLOUDSDK_CONTAINER_CLUSTER=gke-standard-cluster" 
-
- 
-
- 
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - "set"
+      - "image"
+      - "deployment/container1-deployment"
+      - "container1=us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1"
+    env:
+      - "CLOUDSDK_COMPUTE_REGION=us-central1"
+      - "CLOUDSDK_CONTAINER_CLUSTER=gke-standard-cluster"

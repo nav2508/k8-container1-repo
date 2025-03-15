@@ -4,10 +4,11 @@ metadata:
   name: navya-pv
 spec:
   capacity:
-    storage: 1Gi  # 1GB storage
+    storage: 10Gi  # Must match the size of the GCP disk
   accessModes:
-    - ReadWriteMany  # Allow multiple pods to read/write
+    - ReadWriteOnce  # GCE Persistent Disk supports RWO, not RWX
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
-  hostPath:
-    path: "/Navya_PV_dir"  # Mount the directory
+  storageClassName: standard
+  gcePersistentDisk:
+    pdName: gke-pv-disk  # Must match the GCP disk name
+    fsType: ext4

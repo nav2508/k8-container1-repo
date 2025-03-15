@@ -35,20 +35,26 @@ def calculate():
     data = request.get_json()
 
     # Validate JSON input
-    if "file" not in data or "product" not in data:
-        return jsonify({"file": None, "error": "Invalid JSON input."}), 400
+    file_name = data.get("file")  # Use `.get()` to avoid KeyError
+    if not file_name:
+        return jsonify({"file": None, "error": "Missing 'file' in request payload"}), 400
 
-    file_path = os.path.join(PERSISTENT_STORAGE, data["file"])
+    product = data.get("product")
+    if not product:
+        return jsonify({"file": file_name, "error": "Missing 'product' in request payload"}), 400
+
+    file_path = os.path.join(PERSISTENT_STORAGE, file_name)
 
     # Check if file exists
     if not os.path.exists(file_path):
-        return jsonify({"file": data["file"], "error": "File not found."}), 404
+        return jsonify({"file": file_name, "error": "File not found."}), 404
 
     # Send request to Container 2
     container2_url = "http://container2-service:5001/compute"
     response = requests.post(container2_url, json=data)
 
     return response.json(), response.status_code
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

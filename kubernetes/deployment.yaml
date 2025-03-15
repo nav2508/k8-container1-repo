@@ -12,16 +12,19 @@ spec:
       labels:
         app: container1
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: gke-gke-standard-clu-primary-node-poo-bb4eedc1-gpsc  # Ensure pod runs on the correct node
+      imagePullSecrets:  
+      - name: gcr-json-key
       containers:
       - name: container1
-        image: us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1:latest
+        image: us-central1-docker.pkg.dev/k8s-microservices-project/k8-container1-repo/container1@sha256:b0c1d36cfdcc27f28829d8d74434048cf0a8416fc63be86914f6c251d83d3362
         ports:
         - containerPort: 5000
         volumeMounts:
         - name: storage
-          mountPath: "/Navya_PV_dir"
+          mountPath: /Navya_PV_dir
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: navya-pvc  # Use the PVC for storage
----
+          claimName: navya-pvc

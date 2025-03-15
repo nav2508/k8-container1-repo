@@ -52,3 +52,4 @@ def calculate():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+print("Test log added")  # Non-functional change to trigger Cloud Build 

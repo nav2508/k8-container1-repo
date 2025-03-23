@@ -12,8 +12,7 @@ spec:
       labels:
         app: container1
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: gke-gke-standard-clu-primary-node-poo-bb4eedc1-gpsc  # Ensure pod runs on the correct node
+       # Ensure pod runs on the correct node
       imagePullSecrets:  
       - name: gcr-json-key
       containers:

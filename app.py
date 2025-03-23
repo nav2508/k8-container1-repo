@@ -10,6 +10,7 @@ PERSISTENT_STORAGE = "/Navya_PV_dir"
 # Ensure the directory exists
 os.makedirs(PERSISTENT_STORAGE, exist_ok=True)
 
+print("Log Statement added for testing purpose")
 print("Log Statement for testing")
 print("Test log added")
 # Store File API
